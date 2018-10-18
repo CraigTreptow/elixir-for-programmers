@@ -1,5 +1,9 @@
 defmodule Hangman do
-  def hello do
-    IO.puts Dictionary.random_word()
-  end
+  # public API only
+
+  #alias Hangman.Game, as: Wombat
+  # Leave the as: part off and the alias is just Game
+  alias Hangman.Game
+
+  defdelegate new_game(), to: Game
 end
