@@ -62,4 +62,73 @@ defmodule HangmanGameTest do
     assert game.game_state  == :won
     assert game.turns_left == 7
   end
+
+  test "a bad guess is recognized" do
+    game = Game.new_game("wibble")
+    { game, _tally } = Game.make_move(game, "q")
+    assert game.game_state  == :bad_guess
+    assert game.turns_left  == 6
+  end
+
+  test "a lost game is recognized" do
+    game = Game.new_game("w")
+    { game, _tally } = Game.make_move(game, "a")
+    assert game.game_state  == :bad_guess
+    assert game.turns_left  == 6
+    { game, _tally } = Game.make_move(game, "b")
+    assert game.game_state  == :bad_guess
+    assert game.turns_left  == 5
+    { game, _tally } = Game.make_move(game, "c")
+    assert game.game_state  == :bad_guess
+    assert game.turns_left  == 4
+    { game, _tally } = Game.make_move(game, "d")
+    assert game.game_state  == :bad_guess
+    assert game.turns_left  == 3
+    { game, _tally } = Game.make_move(game, "e")
+    assert game.game_state  == :bad_guess
+    assert game.turns_left  == 2
+    { game, _tally } = Game.make_move(game, "f")
+    assert game.game_state  == :bad_guess
+    assert game.turns_left  == 1
+    { game, _tally } = Game.make_move(game, "g")
+    assert game.game_state  == :lost
+  end
+
+  #test "a new technique" do
+    #moves = [
+      #{"w", :good_guess},
+      #{"i", :good_guess},
+      #{"b", :good_guess},
+      #{"l", :good_guess},
+      #{"e", :won}
+    #]
+
+    #game = Game.new_game("wibble")
+#
+    #for {guess, state} <- moves do
+      #game = Game.make_move(game, guess)
+      #assert game.game_state == state
+    #end
+  #end
+
+  test "a guessed word is a won game - better technique" do
+    moves = [
+      {"w", :good_guess},
+      {"i", :good_guess},
+      {"b", :good_guess},
+      {"b", :already_used},
+      {"l", :good_guess},
+      {"e", :won},
+    ]
+
+    game = Game.new_game("wibble")
+
+    fun = fn ({ guess, state }, game) ->
+            { game, _tally} = Game.make_move(game, guess)
+            assert game.game_state == state
+            game
+          end
+
+    Enum.reduce(moves, game, fun)
+  end
 end
