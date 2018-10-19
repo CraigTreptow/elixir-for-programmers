@@ -63,6 +63,28 @@ defmodule HangmanGameTest do
     assert game.turns_left == 7
   end
 
+  test "a guessed word is a won game - better technique" do
+    moves = [
+      {"w", :good_guess},
+      {"i", :good_guess},
+      {"b", :good_guess},
+      {"b", :already_used},
+      {"l", :good_guess},
+      {"e", :won},
+    ]
+
+    game = Game.new_game("wibble")
+
+    fun = fn ({ guess, state }, game) ->
+            { game, _tally} = Game.make_move(game, guess)
+            assert game.game_state == state
+            game
+          end
+
+    Enum.reduce(moves, game, fun)
+  end
+
+
   test "a bad guess is recognized" do
     game = Game.new_game("wibble")
     { game, _tally } = Game.make_move(game, "q")
@@ -94,34 +116,18 @@ defmodule HangmanGameTest do
     assert game.game_state  == :lost
   end
 
-  #test "a new technique" do
-    #moves = [
-      #{"w", :good_guess},
-      #{"i", :good_guess},
-      #{"b", :good_guess},
-      #{"l", :good_guess},
-      #{"e", :won}
-    #]
-
-    #game = Game.new_game("wibble")
-#
-    #for {guess, state} <- moves do
-      #game = Game.make_move(game, guess)
-      #assert game.game_state == state
-    #end
-  #end
-
-  test "a guessed word is a won game - better technique" do
+  test "a lost game is recognized - better technique" do
     moves = [
-      {"w", :good_guess},
-      {"i", :good_guess},
-      {"b", :good_guess},
-      {"b", :already_used},
-      {"l", :good_guess},
-      {"e", :won},
+      {"a", :bad_guess},
+      {"b", :bad_guess},
+      {"c", :bad_guess},
+      {"d", :bad_guess},
+      {"e", :bad_guess},
+      {"f", :bad_guess},
+      {"g", :lost},
     ]
 
-    game = Game.new_game("wibble")
+    game = Game.new_game("w")
 
     fun = fn ({ guess, state }, game) ->
             { game, _tally} = Game.make_move(game, guess)
