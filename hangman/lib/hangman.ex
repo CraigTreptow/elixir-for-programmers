@@ -5,5 +5,7 @@ defmodule Hangman do
   # Leave the as: part off and the alias is just Game
   alias Hangman.Game
 
-  defdelegate new_game(), to: Game
+  defdelegate new_game(),              to: Game
+  defdelegate make_move(game, guess(), to: Game
+  defdelegate tally(),                 to: Game
 end
