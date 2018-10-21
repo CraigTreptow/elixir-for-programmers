@@ -40,23 +40,23 @@ defmodule Hangman.Game do
 
   defp accept_move(game, guess, _already_guessed) do
     Map.put(game, :used, MapSet.put(game.used, guess))
-    |> score_guess( Enum.member?(game.letters, guess))
+    |> score_guess(Enum.member?(game.letters, guess))
   end
 
-  defp score_guess(game, _correct_guess = true) do
+  defp score_guess(game, _good_guess = true) do
     new_state = MapSet.new(game.letters)
     |> MapSet.subset?(game.used)
     |> maybe_won()
     Map.put(game, :game_state, new_state)
   end
 
-  defp score_guess(game = %{turns_left: 1}, _incorrect_guess) do
+  defp score_guess(game = %{turns_left: 1}, _bad_guess) do
     Map.put(game, :game_state, :lost)
   end
 
-  defp score_guess(game = %{turns_left: turns_left}, _incorrect_guess) do
-    %{ game
-       | game_state: :bad_guess,
+  defp score_guess(game = %{turns_left: turns_left}, _bad_guess) do
+    %{ game |
+         game_state: :bad_guess,
          turns_left: turns_left - 1
      }
   end
@@ -70,6 +70,6 @@ defmodule Hangman.Game do
   defp reveal_letter(letter, _not_in_word),    do: "_"
 
   defp maybe_won(true), do: :won
-  defp maybe_won(t_),   do: :good_guess
+  defp maybe_won(_),   do: :good_guess
 
 end
