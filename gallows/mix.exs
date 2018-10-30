@@ -9,7 +9,7 @@ defmodule Gallows.MixProject do
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
       start_permanent: Mix.env == :prod,
-      deps: deps()
+      deps: deps(),
     ]
   end
 
@@ -19,7 +19,7 @@ defmodule Gallows.MixProject do
   def application do
     [
       mod: {Gallows.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools],
     ]
   end
 
@@ -39,7 +39,8 @@ defmodule Gallows.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:cowboy, "~> 2.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:hangman, [ path: "../hangman" ]},
     ]
   end
 end
