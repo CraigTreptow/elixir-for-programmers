@@ -1,1 +1,9 @@
-Game Field
+<%= inspect @tally %>
+
+<p>
+  Turns left: <%= @tally.turns_left %>
+</p>
+
+<p>
+  Word so far: <%= @tally.letters |> Enum.join(" ") %>
+</p>
