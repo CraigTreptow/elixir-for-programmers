@@ -7,3 +7,8 @@
 <p>
   Word so far: <%= word_so_far(@tally) %>
 </p>
+
+<%= form_for(@conn, Routes.hangman_path(@conn, :make_move), [ as: :make_move, method: :put ], fn f -> %>
+  <%= text_input(f, :guess) %>
+  <%= submit("Make next move") %>
+<%= end) %>
