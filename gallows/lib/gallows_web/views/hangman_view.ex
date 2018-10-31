@@ -1,28 +1,19 @@
 defmodule GallowsWeb.HangmanView do
   use GallowsWeb, :view
+  import GallowsWeb.Helpers.Views.GameStateHelper
   alias GallowsWeb.Router.Helpers, as: Routes
 
-  @responses %{
-    :won          => { :success, "You won!"                  },
-    :lost         => { :danger,  "You lost."                 },
-    :good_guess   => { :success, "Good guess!"               },
-    :bad_guess    => { :warning, "Bad guess."                },
-    :already_used => { :info,    "You already guessed that." },
-  }
-
-  def game_state(state) do
-    @responses[state]
-    |> alert()
+  def game_over?(%{ game_state: game_state }) do
+    game_state in [:won, :lost]
   end
 
-  def alert(nil), do: ""
-  def alert({class, message}) do
-    """
-    <div class="alert alert-#{class}">
-      #{message}
-    </div>
-    """
-    |> raw()
+  def new_game_button(conn) do
+    button("New Game", to: Routes.hangman_path(conn, :create_game))
+  end
+
+  def used_letters(tally) do
+    tally.used
+    |> Enum.join(" ")
   end
 
   def word_so_far(tally) do
