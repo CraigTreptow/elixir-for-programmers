@@ -1,5 +1,6 @@
 defmodule GallowsWeb.HangmanController do
   use GallowsWeb, :controller
+  alias GallowsWeb.Router.Helpers, as: Routes
 
   def new_game(conn, _params) do
     render conn, "new_game.html"
