@@ -1,5 +1,3 @@
-<%=# inspect @tally %>
-
 <%= game_state(@tally.game_state()) %>
 
 <p>
