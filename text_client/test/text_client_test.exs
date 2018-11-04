@@ -3,6 +3,6 @@ defmodule TextClientTest do
   doctest TextClient
 
   test "greets the world" do
-    assert TextClient.hello() == :world
+    assert TextClient.hello( ) == :world
   end
 end
