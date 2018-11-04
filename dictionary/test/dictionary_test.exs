@@ -3,6 +3,6 @@ defmodule DictionaryTest do
   doctest Dictionary
 
   test "greets the world" do
-    assert Dictionary.hello() == :world
+    assert Dictionary.hello( ) == :world
   end
 end
